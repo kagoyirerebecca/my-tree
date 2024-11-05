@@ -156,7 +156,7 @@ const GreenTreeMap = () => {
   const [customIcon, setCustomIcon] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
   const [showStory, setShowStory] = useState(false);
-  const [popupPosition, setPopupPosition] = useState({ top: 253, left: 45 });
+  const [popupPosition, setPopupPosition] = useState({ top: 250, left: 45 });
 
   useEffect(() => {
     if (L) setCustomIcon(createCustomIcon());

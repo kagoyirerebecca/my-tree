@@ -2,7 +2,8 @@
 import Head from 'next/head';
 import MyMap from './components/MyMap';
 import MobileStoryViewer from './components/MobileStoryViewer';
-import Header from './components/Header'
+import Header from './components/Header';
+
 
 export default function Home() {
     return (
@@ -16,6 +17,7 @@ export default function Home() {
             <Header />
             <MyMap />
             <MobileStoryViewer />
+           
         </div>
     );
 }
