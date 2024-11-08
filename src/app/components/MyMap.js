@@ -48,42 +48,48 @@ const markerStyles = `
     border: none;
   }
   
-  .popup-bubble {
-    position: absolute;
-    background: white;
-    padding: 12px 16px;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    font-size: 14px;
-    color: #4CAF50;
-    display: flex;
-    align-items: center;
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
-    pointer-events: none; /* Disable pointer events until visible */
-    width: fit-content;
-  }
+  .popup-container {
+
+  position: absolute; 
+  margin-top:249px;
+  margin-left:49px;
+  z-index:5;
+}
+
+ .popup-bubble {
+  background: white;
+  padding: 3px 8px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  font-size: 14px;
+  color: #4CAF50;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  transition: opacity 0.5s ease-in-out;
+  opacity: 0; /* Start hidden */
+}
 
   .popup-bubble::after {
+  border:1px red solid ;
     content: '';
     position: absolute;
     top: 100%; /* Positioning the triangle */
-    left: 50%; /* Centering the triangle */
-    margin-left: -6px; /* Center the triangle */
+    left: 48%; /* Centering the triangle */
+    margin-left: 0px; /* Center the triangle */
     border-width: 6px;
     border-style: solid;
     border-color: white transparent transparent transparent; /* Triangle color */
   }
 
-  .popup-bubble.visible {
-    opacity: 1; /* Make visible */
-    pointer-events: auto; /* Enable pointer events */
-  }
+ .popup-bubble.visible {
+  opacity: 1;
+}
 
-  .popup-content {
-    display: flex;
-    align-items: center;
-  }
+.popup-content {
+  display: flex;
+  align-items: center;
+}
 
   .popup-content img {
     width: 50px;
@@ -117,27 +123,36 @@ const markerStyles = `
     background-color: #013220 !important;
   }
 
-  .story-popup {
-    position: fixed;
-    bottom: -100%; /* Start off-screen */
-    left: 0;
-    right: 0;
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: bottom 0.5s ease; /* Slide effect */
-    z-index: 1000; /* Above everything */
-  }
+ .story-popup {
+  position:absolute;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  transform: scale(0); /* Start scaled down */
+  opacity: 0;
+  width: 90%;
+  z-index: 50;
+  margin-top:300px;
+  background-color:#173202B2;
+  color:white;
+  margin-left:18px;
+  height:50%;
+  overflow:auto;
+  scrollbar-width: none;
+}
 
-  .story-popup.show {
-    bottom: 0; /* Slide up to visible */
-  }
+.story-popup.show {
+  transform: scale(1); /* Scale up to normal size */
+  opacity: 1;
+}
+
 `;
 
-const MapWithMarker = ({ customIcon, onMarkerClick }) => (
+const MapWithMarker = ({ customIcon }) => (
   <MapContainer 
-    center={[37.7577, -122.4376]} 
+    center={[-1.7577, 29.4376]} 
     zoom={10} 
     style={mapStyles}
     className="dark-forest-map"
@@ -147,9 +162,18 @@ const MapWithMarker = ({ customIcon, onMarkerClick }) => (
       attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       opacity={1}
     />
-    <Marker position={[37.7577, -122.4376]} icon={customIcon} eventHandlers={{ click: onMarkerClick }} />
+    <Marker
+      position={[-1.7577, 29.4376]}
+      icon={customIcon}
+      eventHandlers={{
+        click: (e) => {
+          e.target.bindPopup("<strong>Your content here</strong>").openPopup();
+        }
+      }}
+    />
   </MapContainer>
 );
+
 
 // Main component for rendering the map with the popup
 const GreenTreeMap = () => {
@@ -170,12 +194,17 @@ const GreenTreeMap = () => {
   }, []);
 
   const handleMarkerClick = () => {
-    // When the user clicks the popup, show the story
-    if (showPopup) {
-      setShowPopup(false); // Hide the initial popup
-      setShowStory(true);  // Show the story popup
-    }
+    console.log("Marker clicked, showing popup"); 
+   setShowPopup(true);
+   updatePopupPosition();
   };
+
+  const handlePopupContentClick = (event) =>{
+    console.log("Popup content clicked, toggling popups");
+    event.stopPropagation();
+    setShowPopup(false);
+    setShowStory(true);
+  } 
 
   const updatePopupPosition = () => {
     const markerElement = document.querySelector('.custom-marker');
@@ -201,15 +230,13 @@ const GreenTreeMap = () => {
       <MapWithMarker customIcon={customIcon} onMarkerClick={handleMarkerClick} />
 
       {showPopup && (
-        <div
+        <div class="popup-container">
+          <div
           className="popup-bubble visible"
-          style={{
-            position: 'absolute',
-            top: popupPosition.top,
-            left: popupPosition.left,
-          }}
+         
+          onClick={handlePopupContentClick}
         >
-          <div className="popup-content" onClick={handleMarkerClick}> {/* Add click event here */}
+          <div className="popup-content" >
             <img src="/planted.jpg" alt="Plant" />
             <div className="popup-line"></div>
             <div className="popup-text">
@@ -218,6 +245,8 @@ const GreenTreeMap = () => {
             </div>
           </div>
         </div>
+        </div>
+        
       )}
 
       {/* Story Popup */}
