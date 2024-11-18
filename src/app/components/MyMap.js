@@ -142,6 +142,24 @@ const markerStyles = `
   overflow:auto;
   scrollbar-width: none;
 }
+.story-popup .close-btn {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  background-color: #FFFFFF;
+  color: black;
+  border: none;
+  padding: 8px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  text-align: center;
+  border: 0px solid red;
+}
+.story-popup span{
+color:black;
+}
 
 .story-popup.show {
   transform: scale(1); /* Scale up to normal size */
@@ -251,18 +269,22 @@ const GreenTreeMap = () => {
 
       {/* Story Popup */}
       <div className={`story-popup ${showStory ? 'show' : ''}`}>
-        <h2>My name is Kris</h2>
-        <p>My Planter is Kristian</p>
+        <h2>My name is <strong>Kris</strong></h2>
+        <p>My Planter is <strong>Kristian</strong></p><br></br>
         <p>
           Before we introduced agroforest trees to our farms, the heavy rains would wash away the fertile soil, leaving us with poor harvests and not enough grass for our cows to produce milk for our children. The land was struggling, and so were we.
-        </p>
+        </p><br></br>
         <p>
           But thanks to the collective efforts of our eco contributors, everything is beginning to change. The land is healing, and so are we.
-        </p>
+        </p><br></br>
         <p>
           "Planting mixed-crop trees not only supports our daily livelihoods but also restores our lives and the land we depend on." Agro forest trees
         </p>
-        <button onClick={() => setShowStory(false)}>Close</button>
+        <button onClick={() => setShowStory(false)} class="close-btn">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4.39489 0.636363L6.4233 4.23438H6.51989L8.57244 0.636363H12.3153L8.62074 6.81818L12.4602 13H8.62074L6.51989 9.32955H6.4233L4.32244 13H0.507102L4.2983 6.81818L0.627841 0.636363H4.39489Z" fill="#173202"/>
+         </svg>
+        </button>
       </div>
     </>
   );
