@@ -180,6 +180,7 @@ const MapWithMarker = ({ customIcon }) => (
       attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       opacity={1}
     />
+    {/* amakuru kugiti arakenewe hano, ex: cordinate and tree detail for popup props */}
     <Marker
       position={[-1.7577, 29.4376]}
       icon={customIcon}

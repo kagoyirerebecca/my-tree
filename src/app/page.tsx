@@ -7,7 +7,7 @@ import Header from './components/Header';
 
 export default function Home() {
     return (
-        <div style={{ position: 'relative', height: '90vh', overflow: 'hidden', maxWidth: '375px', margin: ' auto' ,marginTop:'40px'}}>
+        <div >
             <Head>
                 <title>My tree</title>
                 <meta name="description" content="Your app description" />
